@@ -21,7 +21,6 @@ header .header-left p {
 }
 
 header #search-box {
-  cursor: pointer;
   border: solid 1px #dbdbdb;
   border-radius: 3px;
   width: 215px;
@@ -38,11 +37,10 @@ header #search-box i {
 }
 
 header #search-box p {
-  font-size: 10px;
+  font-size: 15px;
 }
 
 header .search-box-active {
-  display: none !important;
   border: solid 1px #dbdbdb;
   border-radius: 3px;
   width: 215px;
@@ -63,11 +61,19 @@ header .search-box-active input {
 }
 
 header .search-box-active input::placeholder {
-  font-size: 10px;
+  font-size: 15px;
 }
 
 header .search-box-active .fa-times-circle {
   font-size: 15px;
+}
+
+header .display-none {
+  display: none !important;
+}
+
+header .visible {
+  visibility: visible !important;
 }
 
 header .header-right i {
@@ -81,4 +87,35 @@ hr {
 
 main {
   background: #fafafa;
+  padding: 60px 252px 0 252px;
+}
+
+main::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+main article {
+  width: 614px;
+  float: left;
+  background-color: white;
+  border: #dbdbdb solid 1px;
+}
+
+main article .article-headder .article-headder-left img {
+  width: 50px;
+  height: 50px;
+}
+
+main article .article-headder .article-headder-left p {
+  display: inline-block;
+}
+
+main article .article-main img {
+  width: initial;
+}
+
+main .side-right {
+  float: right;
 }

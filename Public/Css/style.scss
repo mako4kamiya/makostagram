@@ -33,13 +33,7 @@ header {
             padding-left: 16px;
         }
     }
-    // 検索ボックス クリック前
-    #search-box {
-        // これは効かない
-        cursor: pointer;
-
-        // これは効く
-        // display: none!important;
+    #search-box {  // 検索ボックス クリック前
         @include searchbox;
         color: $font-gray;
         background-color: $bg-gray;
@@ -48,12 +42,10 @@ header {
             margin-right: 6px;
         }
         p {
-            font-size: 10px;
+            font-size: 15px;
         }
     }
-    // 検索ボックス クリック後
-    .search-box-active {
-        display: none!important;
+    .search-box-active {  // 検索ボックス クリック後
         @include searchbox;
         .fa-search {
             font-size: 10px;
@@ -64,13 +56,21 @@ header {
             outline: none;
             width: 9em;
             &::placeholder {
-                font-size: 10px;
+                font-size: 15px;
             }
         }
         .fa-times-circle {
             font-size: 15px;
         }
     }
+    // クリックイベント
+    .display-none {
+        display: none!important;
+    }
+    .visible {
+        visibility: visible !important;
+    }
+
     .header-right {
         i {
             font-size: 24px;
@@ -81,6 +81,38 @@ header {
 hr {
     margin: unset!important;
 }
+
 main {
+    &::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
     background: $bg-gray;
+    padding: 60px 252px 0 252px;
+    article {
+        width: 614px;
+        float: left;
+        background-color: white;
+        border: $border solid 1px;
+        .article-headder {
+            .article-headder-left {
+                img {
+                    width: 50px;
+                    height: 50px;
+                }
+                p {
+                    display: inline-block;
+                }
+            }
+        }
+        .article-main {
+            img {
+                width: initial;
+            }
+        }
+    }
+    .side-right {
+        float: right;
+    }
 }

@@ -1,27 +1,14 @@
 $(function() {
-    // これは効く
-    // $(document).on('click','button',function(){
-    //     $('#try').hide();
-    //     });
-
-    // これは効かない
-    // $(document).on('click','button',function(){
-    //     $('#search-box').hide();
-    //     });
-
-    // これは効く
-    // $('button').click(function(){
-    //     $('#try').hide();
-    // });
-
-    // これは効かない
-    // $('#search-box ').click(function(){
-    //     $('#search-box ').hide();
-    // });
-
-    // これも効かない
-    // $('button').click(function(){
-    //     $('#search-box').hide();
-    // });
-
+    $('#search-box').click(function(){
+        $('#search-box').addClass('display-none');
+        $('.search-box-active').addClass('visible'); //blockだとデザインが崩れるのでvisible
+        $('.search-box-active').removeClass('display-none');
+        //visibleだとデザインが崩れるので.search-box-activeはdisplay:blockで非表示
+    });
+    $('#close').click(function(){
+        $('#search-box').removeClass('display-none');
+        $('.search-box-active').removeClass('visible');
+        $('.search-box-active').addClass('display-none');
+    });
+    
 })
