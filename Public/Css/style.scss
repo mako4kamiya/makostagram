@@ -1,6 +1,86 @@
-header {
-    padding: 22px 0;
+$font-gray:#999999;
+$font-lightgray:#c7c7c7;
+$border:#dbdbdb;
+$bg-gray:#fafafa;
+
+@mixin searchbox {
+    border: solid 1px $border;
+    border-radius: 3px;
+    width: 215px;
+    height: 28px;
+    padding: 7px;
+    color: $font-lightgray;
+}
+body {
     p {
-        display: inline;
+        margin: unset;
     }
+}
+
+header {
+    width: 970px;
+    margin: 0 auto;
+    padding: 16px 0;
+    .header-left {
+        i {
+            font-size: 24px;
+            border-right: solid 1px black;
+            padding-right: 16px;
+        }
+        p {
+            display: inline;
+            font-size: 29px;
+            padding-left: 16px;
+        }
+    }
+    // 検索ボックス クリック前
+    #search-box {
+        // これは効かない
+        cursor: pointer;
+
+        // これは効く
+        // display: none!important;
+        @include searchbox;
+        color: $font-gray;
+        background-color: $bg-gray;
+        i {
+            font-size: 10px;
+            margin-right: 6px;
+        }
+        p {
+            font-size: 10px;
+        }
+    }
+    // 検索ボックス クリック後
+    .search-box-active {
+        display: none!important;
+        @include searchbox;
+        .fa-search {
+            font-size: 10px;
+            padding-right: 8px;
+        }
+        input {
+            border: none;
+            outline: none;
+            width: 9em;
+            &::placeholder {
+                font-size: 10px;
+            }
+        }
+        .fa-times-circle {
+            font-size: 15px;
+        }
+    }
+    .header-right {
+        i {
+            font-size: 24px;
+            padding-left: 24px;
+        }
+    }
+}
+hr {
+    margin: unset!important;
+}
+main {
+    background: $bg-gray;
 }

@@ -1,8 +1,9 @@
 require 'sinatra'
 require 'sinatra/reloader'
+require 'fileutils'
 
 set :public_folder, 'Public'
 
 get '/' do
-    "<h1>hello world!</h1>"
+    erb :index
 end
