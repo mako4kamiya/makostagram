@@ -12,6 +12,7 @@ $bg-gray:#fafafa;
     color: $font-lightgray;
 }
 body {
+    font-family: 'Avenir','Helvetica Neue','Helvetica','Arial','Hiragino Sans','ヒラギノ角ゴシック',YuGothic,'Yu Gothic','メイリオ', Meiryo,'ＭＳ Ｐゴシック','MS PGothic';
     p {
         margin: unset;
     }
@@ -23,7 +24,7 @@ header {
     padding: 16px 0;
     .header-left {
         i {
-            font-size: 24px;
+            font-size: 26px;
             border-right: solid 1px black;
             padding-right: 16px;
         }
@@ -31,6 +32,7 @@ header {
             display: inline;
             font-size: 29px;
             padding-left: 16px;
+            font-family: billabong;
         }
     }
     #search-box {  // 検索ボックス クリック前
@@ -75,6 +77,7 @@ header {
         i {
             font-size: 24px;
             padding-left: 24px;
+            -webkit-text-stroke: 1px white;
         }
     }
 }
@@ -114,5 +117,8 @@ main {
     }
     .side-right {
         float: right;
-    }
+            input {
+                display: block
+            }
+        }
 }

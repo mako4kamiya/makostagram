@@ -3,7 +3,12 @@
         <div class="article-headder d-flex align-items-center justify-content-between">
             <div class="article-headder-left">
                 <img src="/images/Profile.png" alt="">
-                <p><%= @name %></p>
+                <% if session[:id]%>
+                    <p><%= session[:id] %></p>
+                    <a href="/">logout</a>
+                    <% else %>
+                    <p>Hello</p>
+                <% end %>
             </div>
             <i class="fas fa-ellipsis-h"></i>
         </div>
@@ -11,6 +16,10 @@
         </div>
     </article>
     <div class="side-right">
-        <h1>hello</h1>
+        <form action="/" method="GET">
+            <input type="text" name ="id" id="id" placeholder="id">
+            <input type="password" name="password" id="password" placeholder="password">
+            <input type="submit" value="submit">
+        </form>
     </div>
 </main>
