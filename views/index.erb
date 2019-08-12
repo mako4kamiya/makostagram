@@ -1,25 +1,35 @@
-<main>
-    <article>
-        <div class="article-headder d-flex align-items-center justify-content-between">
-            <div class="article-headder-left">
-                <img src="/images/Profile.png" alt="">
-                <% if session[:id]%>
-                    <p><%= session[:id] %></p>
-                    <a href="/">logout</a>
-                    <% else %>
-                    <p>Hello</p>
-                <% end %>
+<article>
+    <section>
+        <% @posts.each do |post| %>
+        <div class="post">
+            <div class="article-headder">
+                <div class="article-headder-left">
+                    <p><%= post['user_name']%></p>
+                </div>
+                <i class="fas fa-ellipsis-h"></i>
             </div>
-            <i class="fas fa-ellipsis-h"></i>
+            <img src="/images/<%= post['image']%>" alt="">
+            <div  class="article-main">
+                <i class="far fa-heart"></i>
+                <div class="article-contents">
+                    <h1><%= post['user_name']%></h1>
+                    <p><%= post['content']%></p>
+                </div>
+            </div>
         </div>
-        <div  class="article-main">
+        <% end %>
+    </section>
+    <aside>
+        <div class="aside_top">
+            <a href="/profile">
+                <img src="/profile_images/<%= @profile_image%>">
+            </a>
+            <p><%= @name%></p>
         </div>
-    </article>
-    <div class="side-right">
-        <form action="/" method="GET">
-            <input type="text" name ="id" id="id" placeholder="id">
-            <input type="password" name="password" id="password" placeholder="password">
-            <input type="submit" value="submit">
-        </form>
-    </div>
-</main>
+        <div class="aside_bottom">
+        <p>hello</p>
+        <h1>hi</h1>
+        </div>
+    </aside>
+</article>
+

@@ -3,7 +3,7 @@
 #####
 require 'sinatra' #sinatraの読み込み
 require 'sinatra/reloader' #リローダーの読み込み
-require 'fileutils' #静的
+require 'fileutils' #ファイル操作のモジュール
 require 'sinatra/cookies' #クッキーを使います。
 require 'pg' #PostgreSQLを使えるようにします。
 
@@ -35,22 +35,32 @@ end
 #ルーティン
 ####
 
+#セッションがあるかどうかの確認
+get '/' do
+  if session[:user_id].nil? == true #セッションが空ならsigninを読み込む
+      redirect 'signin'
+  else #セッションがあったらindexを読み込む
+      redirect 'index'
+  end
+end
+
 ###サインアップ（新規登録）画面###
 #/signupにアクセスすると、サインアップ（新規登録）画面が表示される。
 get '/signup' do
-  erb :signup
+  erb :signup, :layout => :signup #signupのレイアウトを使う
 end
 post '/signup' do
   name = params[:name]
   email = params[:email]
   password = params[:password]
   db.exec("INSERT INTO users(name, email, password) VALUES($1,$2,$3)",[name,email,password])
+  redirect '/signin'
 end
 
 ###サインイン画面###
 #/signinにアクセスすると、サインイン画面が表示される。
 get '/signin' do
-  erb :signin
+  erb :signin, :layout => :signin #signinのレイアウトを使う
 end
 #signupで記入した内容がusersテーブルに保存される。
 post '/signin' do
@@ -65,15 +75,6 @@ post '/signin' do
   end
 end
 
-#セッションがあるかどうかの確認
-get '/' do
-  if session[:user_id].nil? == true #セッションが空ならsigninを読み込む
-      erb :signin
-  else #セッションがあったらindexを読み込む
-      redirect 'index'
-  end
-end
-
 ####home(index画面)###
 #/index にアクセスすると、みんなの掲示板の内容一覧と投稿画面が表示される
 get '/index' do
@@ -81,26 +82,53 @@ get '/index' do
     redirect 'signin'
   else #セッションがあればindexを読み込む
     active_user = session[:user_id]
-    @posts = db.exec_params("SELECT * FROM posts")
-    @active_user = db.exec("SELECT name FROM users WHERE id = $1",[active_user]).first
+    users_name = db.exec("SELECT name FROM users WHERE id = $1",[active_user]).first
+    @name = users_name['name']
+    @posts = db.exec("SELECT * FROM posts")
+
+    pf_img = db.exec("SELECT profile_image FROM profile_images WHERE user_id =$1 ORDER BY id DESC",[active_user]).first
+    if pf_img.nil? == true
+      user_png = "user.png"
+      db.exec("INSERT INTO profile_images(profile_image,user_id) VALUES($1,$2)",[user_png,active_user])
+      redirect 'index'
+    end
+    @profile_image = pf_img['profile_image']
     erb :index
   end
 end
-##画像とcomment投稿##
+
 post '/index' do
+  ##画像とcomment投稿##
   active_user = session[:user_id]
-  content = params[:content]
   users_name = db.exec("SELECT name FROM users WHERE id = $1",[active_user]).first
-  @user_name = users_name['name']
-  db.exec("INSERT INTO posts(user_id,content,user_name) VALUES($1,$2,$3)",[active_user,content,user_name])
-
-  @file_name = params[:img][:filename]
-  FileUtils.mv(params[:img][:tempfile], "./public/images/#{@file_name}")
-
+  name = users_name['name']
+  file_name = params[:img][:filename]
+  content = params[:content]
+  db.exec("INSERT INTO posts(user_name,image,content,user_id) VALUES($1,$2,$3,$4)",[name,file_name,content,active_user])
+  ##投稿画像をimagesフォルダへ保存する。##
+  FileUtils.mv(params[:img][:tempfile], "./public/images/#{file_name}")
+  
   redirect '/index'
 end
 
-
+get '/profile' do
+    active_user = session[:user_id]
+    users_name = db.exec("SELECT name FROM users WHERE id = $1",[active_user]).first
+    @name = users_name['name']
+    @profile_posts = db.exec("SELECT image FROM posts WHERE user_id =$1",[active_user])
+    pf_img = db.exec("SELECT profile_image FROM profile_images WHERE user_id =$1 ORDER BY id DESC",[active_user]).first
+    @profile_image = pf_img['profile_image']
+    erb :profile
+end
+##profile画像を設定する。##
+post '/profile' do
+  active_user = session[:user_id]
+  profile_file_name = params[:profile_img][:filename]
+  db.exec("INSERT INTO profile_images (profile_image,user_id) VALUES($1,$2)",[profile_file_name,active_user])
+  ##profile画像をprofile_imagesフォルダへ保存する。##
+  FileUtils.mv(params[:profile_img][:tempfile], "./public/profile_images/#{profile_file_name}")
+  redirect 'profile'
+end
 post '/like' do
   
 end
@@ -129,9 +157,3 @@ post '/unfollow' do
 end
 
 
-get '/profile' do
-  
-end
-post '/upload' do
-  
-end

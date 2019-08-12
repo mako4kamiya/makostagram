@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- cssの読み込み -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Bootstrap CSS -->
+    <%# <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> %>
+
+    <!-- fontawesomeの読み込み -->
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+
+    <title>makotagram</title>
+    
+</head>
+<body>
+    <div class="top">
+        <div class="left">
+            <img src="/images/phone.png" alt="">
+        </div>
+        <div class="right">
+            <img src="/images/Makostagram.png" alt="">
+            <form class="top_form" action="/signin" method="post">
+                <label for="name">名前</label>
+                <input type="text" name="name" id="name" placeholder="名前を入力してください" required>
+                <label for="password">パスワード</label>
+                <input type="password" name="password" id="password" placeholder="パスワードを入力してください" required>
+                <button type="submit">送信</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

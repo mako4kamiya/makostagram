@@ -2,123 +2,239 @@ $font-gray:#999999;
 $font-lightgray:#c7c7c7;
 $border:#dbdbdb;
 $bg-gray:#fafafa;
+$border-line:solid 1px $border;
 
 @mixin searchbox {
     border: solid 1px $border;
     border-radius: 3px;
-    width: 215px;
-    height: 28px;
+    width: 199px;
+    height: 12px;
     padding: 7px;
     color: $font-lightgray;
 }
+
 body {
     font-family: 'Avenir','Helvetica Neue','Helvetica','Arial','Hiragino Sans','ヒラギノ角ゴシック',YuGothic,'Yu Gothic','メイリオ', Meiryo,'ＭＳ Ｐゴシック','MS PGothic';
+    margin: 0 auto;
     p {
         margin: unset;
     }
 }
 
 header {
-    width: 970px;
-    margin: 0 auto;
-    padding: 16px 0;
-    .header-left {
-        i {
-            font-size: 26px;
-            border-right: solid 1px black;
-            padding-right: 16px;
+    display: flex;
+    justify-content: center;
+    border-bottom: $border-line;
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 970px;
+        padding: 21px 0;
+        margin: 0 auto;
+        .header-left {
+            display: flex;
+            align-items: center;
+            i {
+                font-size: 26px;
+                border-right: solid 1px black;
+                padding-right: 16px;
+            }
+            a {
+                text-decoration: none;
+                color: black;
+            }
+            p {
+                display: inline;
+                font-size: 29px;
+                padding-left: 16px;
+                font-family: billabong;
+            }
         }
-        p {
-            display: inline;
-            font-size: 29px;
-            padding-left: 16px;
-            font-family: billabong;
-        }
-    }
-    #search-box {  // 検索ボックス クリック前
-        @include searchbox;
-        color: $font-gray;
-        background-color: $bg-gray;
-        i {
-            font-size: 10px;
-            margin-right: 6px;
-        }
-        p {
-            font-size: 15px;
-        }
-    }
-    .search-box-active {  // 検索ボックス クリック後
-        @include searchbox;
-        .fa-search {
-            font-size: 10px;
-            padding-right: 8px;
-        }
-        input {
-            border: none;
-            outline: none;
-            width: 9em;
-            &::placeholder {
+        #search-box {  // 検索ボックス クリック前
+            @include searchbox;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $font-gray;
+            background-color: $bg-gray;
+            i {
+                font-size: 10px;
+                margin-right: 6px;
+            }
+            p {
                 font-size: 15px;
             }
         }
-        .fa-times-circle {
-            font-size: 15px;
+        #search-box-active {  // 検索ボックス クリック後
+            @include searchbox;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            .fa-search {
+                font-size: 10px;
+                padding-right: 8px;
+            }
+            input {
+                border: none;
+                outline: none;
+                width: 9em;
+                &::placeholder {
+                    font-size: 15px;
+                }
+            }
+            .fa-times-circle {
+                font-size: 15px;
+            }
         }
-    }
-    // クリックイベント
-    .display-none {
-        display: none!important;
-    }
-    .visible {
-        visibility: visible !important;
-    }
-
-    .header-right {
-        i {
-            font-size: 24px;
-            padding-left: 24px;
-            -webkit-text-stroke: 1px white;
+        // クリックイベント
+        .display-none {
+            display: none!important;
+        }
+        .visible {
+            visibility: visible !important;
+        }
+    
+        .header-right {
+            i {
+                font-size: 24px;
+                padding-left: 24px;
+                -webkit-text-stroke: 1px white;
+            }
         }
     }
 }
-hr {
-    margin: unset!important;
-}
-
 main {
-    &::after {
-        content: "";
-        display: block;
-        clear: both;
-    }
-    background: $bg-gray;
-    padding: 60px 252px 0 252px;
+    display: flex;
+    justify-content: center;
+    background-color: $bg-gray;
+    padding-top: 60px;
     article {
-        width: 614px;
-        float: left;
-        background-color: white;
-        border: $border solid 1px;
-        .article-headder {
-            .article-headder-left {
+        margin: 0 auto;
+        display: flex;
+        section {
+            width: 614px;
+            .post {
+                background-color: white;
+                border: $border-line;
+                border-radius: 3px;
+                margin-bottom: 60px;
+                .article-headder {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 9px;
+                    .article-headder-left {
+                        display: flex;
+                        align-items: center;
+                        img {
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 50px;
+                        }
+                        p {
+                            padding-left: 5px;
+                        }
+                    }
+                }
+                img {
+                    max-width: 100%;
+                    width: 100%;
+                }
+                .article-main {
+                    padding: 0 16px;
+                    .article-contents {
+                        display: flex;
+                        h1 {
+                            margin: unset;
+                        }
+                        p {
+                            padding: 0 5px;
+                        }
+                    }
+                }
+            }
+        }
+        aside {
+            width: 284px;
+            margin-left: 28px;
+            .aside_top {
+                padding: 9px;
+                margin-bottom: 1px;
+                display: flex;
+                align-items: center;
+                justify-content: left;
                 img {
                     width: 50px;
                     height: 50px;
+                    border-radius: 50px;
                 }
                 p {
-                    display: inline-block;
+                    padding-left: 5px;
                 }
             }
-        }
-        .article-main {
-            img {
-                width: initial;
+            .aside_bottom {
+                padding: 9px;
+                background-color: white;
+                border: $border-line;
+                border-radius: 3px;
             }
         }
     }
-    .side-right {
-        float: right;
-            input {
-                display: block
+    .profile {
+        .profile_header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 935px;
+            padding-bottom: 50px;
+            border-bottom: $border-line;
+            img {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+            }
+            h1 {
+                padding-left: 50px;
             }
         }
+        .profile_posts {
+            display: flex;
+            .post {
+                width: 293px;
+                height:293px;
+                img {
+                    object-fit: cover;
+                    width: inherit;
+                    height: inherit;
+                }
+            }
+    }
+    }
+}
+
+// signinの画面
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    padding: 0 100px;
+    .left {
+        img {
+            width: 454px;
+            height: 618px;
+        }
+    }
+    .right {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        .top_form {
+            display: inline-grid;
+        }
+        width: 350px;
+        height: 357px;
+        border: $border-line;
+    }
 }

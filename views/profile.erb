@@ -1,0 +1,43 @@
+<!-- Modal One -->
+<div class="modal">
+  <input class="modal-open" id="upload-profile_image" type="checkbox" hidden>
+  <div class="modal-wrap" aria-hidden="true" role="dialog">
+    <label class="modal-overlay" for="upload-profile_image"></label>
+    <div class="modal-dialog">
+        <form action="/profile" method="POST" enctype="multipart/form-data">
+            <div class="modal-header">
+                <h2>profile画像を設定しましょう</h2>
+                <label class="btn-close" for="upload-profile_image" aria-hidden="true">×</label>
+            </div>
+            <div class="modal-body">
+                    <input type="file" name="profile_img" id="profile_img">
+            </div>
+            <div class="modal-footer">
+                <label class="btn btn-primary" for="upload-profile_image">
+                    <input type="submit" value="送信する">
+                </label>
+            </div>
+        </form> 
+    </div>
+  </div>
+</div>
+
+<div class="profile">
+    <div class="profile_header">
+        <label class="btn" for="upload-profile_image">
+            <% if @profile_image.nil? == true%>
+            <img src="/profile_images/user.png" alt="">
+            <% else %>
+            <img src="/profile_images/<%= @profile_image%>">
+            <% end%>
+        </label>
+        <h1><%= @name%></h1>
+    </div>
+    <div class="profile_posts">
+    <% @profile_posts.each do |post| %>
+    <div class="post">
+        <img src="/images/<%= post['image']%>" alt="">
+    </div>
+    <% end %>
+    </div>
+</div class="profile">
