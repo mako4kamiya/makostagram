@@ -4,11 +4,12 @@
         <div class="post">
             <div class="article-headder">
                 <div class="article-headder-left">
+                <img src="/images/profile_images/<%= post['profile_image']%>" >
                     <p><%= post['user_name']%></p>
                 </div>
                 <i class="fas fa-ellipsis-h"></i>
             </div>
-            <img src="/images/<%= post['image']%>" alt="">
+            <img src="/images/post_images/<%= post['image']%>" alt="">
             <div  class="article-main">
                 <i class="far fa-heart"></i>
                 <div class="article-contents">
@@ -22,7 +23,7 @@
     <aside>
         <div class="aside_top">
             <a href="/profile">
-                <img src="/profile_images/<%= @profile_image%>">
+                <img src="/images/profile_images/<%= @profile_image%>">
             </a>
             <p><%= @name%></p>
         </div>

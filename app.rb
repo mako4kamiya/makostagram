@@ -53,7 +53,8 @@ post '/signup' do
   name = params[:name]
   email = params[:email]
   password = params[:password]
-  db.exec("INSERT INTO users(name, email, password) VALUES($1,$2,$3)",[name,email,password])
+  default = "default_user.png"
+  db.exec("INSERT INTO users(name, email, password,profile_image) VALUES($1,$2,$3,$4)",[name,email,password,default])
   redirect '/signin'
 end
 
@@ -84,16 +85,17 @@ get '/index' do
     active_user = session[:user_id]
     users_name = db.exec("SELECT name FROM users WHERE id = $1",[active_user]).first
     @name = users_name['name']
-    @posts = db.exec("SELECT * FROM posts")
+    @posts = db.exec("SELECT * FROM posts JOIN users ON posts.user_id = users.id")
 
-    pf_img = db.exec("SELECT profile_image FROM profile_images WHERE user_id =$1 ORDER BY id DESC",[active_user]).first
+    pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
     if pf_img.nil? == true
-      user_png = "user.png"
-      db.exec("INSERT INTO profile_images(profile_image,user_id) VALUES($1,$2)",[user_png,active_user])
+      default = "default_user.png"
+      db.exec("INSERT INTO users(profile_image) VALUES($1)",[default])
       redirect 'index'
+    else
+      @profile_image = pf_img['profile_image']
+      erb :index
     end
-    @profile_image = pf_img['profile_image']
-    erb :index
   end
 end
 
@@ -106,8 +108,8 @@ post '/index' do
   content = params[:content]
   db.exec("INSERT INTO posts(user_name,image,content,user_id) VALUES($1,$2,$3,$4)",[name,file_name,content,active_user])
   ##投稿画像をimagesフォルダへ保存する。##
-  FileUtils.mv(params[:img][:tempfile], "./public/images/#{file_name}")
-  
+  FileUtils.mv(params[:img][:tempfile], "./public/images/post_images/#{file_name}")
+  puts "投稿しました"
   redirect '/index'
 end
 
@@ -116,19 +118,31 @@ get '/profile' do
     users_name = db.exec("SELECT name FROM users WHERE id = $1",[active_user]).first
     @name = users_name['name']
     @profile_posts = db.exec("SELECT image FROM posts WHERE user_id =$1",[active_user])
-    pf_img = db.exec("SELECT profile_image FROM profile_images WHERE user_id =$1 ORDER BY id DESC",[active_user]).first
+    pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
     @profile_image = pf_img['profile_image']
     erb :profile
 end
 ##profile画像を設定する。##
 post '/profile' do
-  active_user = session[:user_id]
-  profile_file_name = params[:profile_img][:filename]
-  db.exec("INSERT INTO profile_images (profile_image,user_id) VALUES($1,$2)",[profile_file_name,active_user])
-  ##profile画像をprofile_imagesフォルダへ保存する。##
-  FileUtils.mv(params[:profile_img][:tempfile], "./public/profile_images/#{profile_file_name}")
+    active_user = session[:user_id]
+    pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
+    old_pf_img = pf_img['profile_image']#active_userのDB上のプロフィール名を取ってきて。old_pf_imgていう名前をつける
+    puts old_pf_img
+    new_pf_img = params[:profile_img][:filename]
+  if old_pf_img.eql?('default_user.png') #old_pf_imgがdefault画像だったら、新しい画像を保存する。'== true'なくてもよさそう！
+    FileUtils.mv(params[:profile_img][:tempfile], "./public/images/profile_images/#{new_pf_img}")
+    puts "hi"
+  else #old_pf_imgがdefaultじゃなかったら、新しい画像に書き換える。
+    FileUtils.mv(params[:profile_img][:tempfile], "./public/images/profile_images/#{new_pf_img}")
+    FileUtils.rm("./public/images/profile_images/#{old_pf_img}")
+    puts "why"
+  end
+  db.exec("UPDATE users SET profile_image = $1 WHERE id = $2 AND profile_image = $3;",[new_pf_img, active_user, old_pf_img])
+  puts "hogehoge"
   redirect 'profile'
 end
+
+
 post '/like' do
   
 end

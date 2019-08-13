@@ -10,6 +10,7 @@
                 <label class="btn-close" for="upload-profile_image" aria-hidden="true">×</label>
             </div>
             <div class="modal-body">
+            <%######## プロフィール画像変更 %>
                     <input type="file" name="profile_img" id="profile_img">
             </div>
             <div class="modal-footer">
@@ -25,18 +26,14 @@
 <div class="profile">
     <div class="profile_header">
         <label class="btn" for="upload-profile_image">
-            <% if @profile_image.nil? == true%>
-            <img src="/profile_images/user.png" alt="">
-            <% else %>
-            <img src="/profile_images/<%= @profile_image%>">
-            <% end%>
+            <img src="/images/profile_images/<%= @profile_image%>">
         </label>
         <h1><%= @name%></h1>
     </div>
     <div class="profile_posts">
     <% @profile_posts.each do |post| %>
     <div class="post">
-        <img src="/images/<%= post['image']%>" alt="">
+        <img src="/images/post_images/<%= post['image']%>" alt="">
     </div>
     <% end %>
     </div>
