@@ -1,3 +1,4 @@
+// 検索ボックスのクリックイベント
 $(function() {
     $('#search-box').click(function(){
         $('#search-box').addClass('display-none');
@@ -12,3 +13,5 @@ $(function() {
     });
     
 })
+
+// いいね！のクリックイベント

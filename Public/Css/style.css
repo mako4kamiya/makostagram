@@ -153,6 +153,7 @@ main article section .post .article-headder .article-headder-left img {
   width: 32px;
   height: 32px;
   border-radius: 50px;
+  object-fit: cover;
 }
 
 main article section .post .article-headder .article-headder-left p {
@@ -166,6 +167,10 @@ main article section .post img {
 
 main article section .post .article-main {
   padding: 0 16px;
+}
+
+main article section .post .article-main .i_pink:hover {
+  color: pink;
 }
 
 main article section .post .article-main .article-contents {
@@ -197,6 +202,7 @@ main article aside .aside_top img {
   width: 50px;
   height: 50px;
   border-radius: 50px;
+  object-fit: cover;
 }
 
 main article aside .aside_top p {
