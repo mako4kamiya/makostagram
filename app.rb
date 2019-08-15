@@ -142,9 +142,10 @@ post '/profile' do
   redirect 'profile'
 end
 
+##途中
 post '/like' do
   active_user = session[:user_id]
-  post_id =
+  post_id = db.exec("SELECT id FROM posts WHERE user_name = $1 AND image =",[active_user]).first
   db.exec("INSERT INTO likes(user_id,post_id) VALUES($1,$2)",[active_user,post_id])
 end
 post '/dislike' do
