@@ -169,8 +169,16 @@ main article section .post .article-main {
   padding: 0 16px;
 }
 
-main article section .post .article-main .i_pink:hover {
-  color: pink;
+main article section .post .article-main .pink_heart {
+  color: #ED4956;
+}
+
+main article section .post .article-main .display-none {
+  display: none;
+}
+
+main article section .post .article-main .display-block {
+  display: block;
 }
 
 main article section .post .article-main .article-contents {

@@ -94,7 +94,7 @@ header {
         .visible {
             visibility: visible !important;
         }
-    
+        
         .header-right {
             i {
                 font-size: 24px;
@@ -144,8 +144,14 @@ main {
                 }
                 .article-main {
                     padding: 0 16px;
-                    .i_pink:hover {
-                            color: pink;
+                    .pink_heart {
+                        color:#ED4956;
+                    }
+                    .display-none {
+                        display: none;
+                    }
+                    .display-block {
+                        display: block;
                     }
                     .article-contents {
                         display: flex;

@@ -114,21 +114,21 @@ post '/index' do
 end
 
 get '/profile' do
-    active_user = session[:user_id]
-    users_name = db.exec("SELECT name FROM users WHERE id = $1",[active_user]).first
-    @name = users_name['name']
-    @profile_posts = db.exec("SELECT image FROM posts WHERE user_id =$1",[active_user])
-    pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
-    @profile_image = pf_img['profile_image']
-    erb :profile
+  active_user = session[:user_id]
+  users_name = db.exec("SELECT name FROM users WHERE id = $1",[active_user]).first
+  @name = users_name['name']
+  @profile_posts = db.exec("SELECT image FROM posts WHERE user_id =$1",[active_user])
+  pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
+  @profile_image = pf_img['profile_image']
+  erb :profile
 end
 ##profile画像を設定する。##
 post '/profile' do
-    active_user = session[:user_id]
-    pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
-    old_pf_img = pf_img['profile_image']#active_userのDB上のプロフィール名を取ってきて。old_pf_imgていう名前をつける
-    puts old_pf_img
-    new_pf_img = params[:profile_img][:filename]
+  active_user = session[:user_id]
+  pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
+  old_pf_img = pf_img['profile_image']#active_userのDB上のプロフィール名を取ってきて。old_pf_imgていう名前をつける
+  puts old_pf_img
+  new_pf_img = params[:profile_img][:filename]
   if old_pf_img.eql?('default_user.png') #old_pf_imgがdefault画像だったら、新しい画像を保存する。'== true'なくてもよさそう！
     FileUtils.mv(params[:profile_img][:tempfile], "./public/images/profile_images/#{new_pf_img}")
     puts "hi"
@@ -143,7 +143,9 @@ post '/profile' do
 end
 
 post '/like' do
-  
+  active_user = session[:user_id]
+  post_id =
+  db.exec("INSERT INTO likes(user_id,post_id) VALUES($1,$2)",[active_user,post_id])
 end
 post '/dislike' do
   

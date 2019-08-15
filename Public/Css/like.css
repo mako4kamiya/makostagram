@@ -1,15 +1,15 @@
   .heart {
     display: inline-block;
-    width: 65px;
-    height: 90px;
-    margin: -24px;
+    width: 100px;
+    height: 100px;
+    margin: -30px;
     /* position: absolute; */
     /* left: 50%; */
     /* top: 50%; */
     /* transform: translate(-50%, -50%); */
     background: url(/images/web_heart_animation.png) no-repeat;
-    /* background-position: 0 0; */
-    /* cursor: pointer; */
+    background-position: 0 0;
+    cursor: pointer;
     animation: fave-heart 1s steps(28);
   }
   .heart:hover {

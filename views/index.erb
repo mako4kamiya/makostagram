@@ -11,8 +11,9 @@
             </div>
             <img src="/images/post_images/<%= post['image']%>" alt="">
             <div  class="article-main">
-            <div class="heart"></div>
-                <i class="far fa-heart i_pink"></i>
+            <%# <div class="heart"></div> %>
+                <i class="far fa-heart white_heart display-block"></i>
+                <i class="fas fa-heart pink_heart display-none"></i>
                 <div class="article-contents">
                     <h1><%= post['user_name']%></h1>
                     <p><%= post['content']%></p>
