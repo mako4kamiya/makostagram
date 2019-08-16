@@ -87,13 +87,6 @@ get '/index' do
     @name = users_name['name']
     @posts = db.exec("SELECT * FROM posts JOIN users ON posts.user_id = users.id")
 
-    #####いいね機能 途中
-    like = params[:post]
-    puts like
-    db.exec("INSERT INTO likes(user_id,post_id) VALUES($1,$2)",[active_user,like])
-
-
-
     pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
     if pf_img.nil? == true
       default = "default_user.png"
@@ -149,13 +142,15 @@ post '/profile' do
   redirect 'profile'
 end
 
-##途中
-# get '/like' do
-# end
+#####いいね機能 途中
+get '/like/:post_id' do
+  active_user = session[:user_id]
+  post_id = params[:id]
 
-# get '/likes/:post_id' do
+  puts post_id
+  db.exec("INSERT INTO likes(user_id,post_id) VALUES($1,$2)",[active_user,post_id])
+end
 
-# end
 
 # post '/like' do
 #   params[:like] = session[:user_id]
@@ -175,23 +170,23 @@ end
 # end
 
 
-get '/following' do
+# get '/following' do
   
-end
-get '/followed' do
+# end
+# get '/followed' do
   
-end
-get '/follow' do
+# end
+# get '/follow' do
   
-end
-post '/follow' do
+# end
+# post '/follow' do
   
-end
-get '/unfollow' do
+# end
+# get '/unfollow' do
   
-end
-post '/unfollow' do
+# end
+# post '/unfollow' do
   
-end
+# end
 
 

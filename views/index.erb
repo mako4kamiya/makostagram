@@ -13,14 +13,16 @@
             <div  class="article-main">
             <%# <div class="heart"></div> %>
                 <%# <input type="hidden" name="like"><i class="far fa-heart white_heart display-block"></i> %>
-                <input type="hidden" name="<%= post['post_id']%>"><i class="far fa-heart white_heart display-block"></i>
-                <input type="hidden" name="dislike"><i class="fas fa-heart pink_heart display-none"></i>
+                <a href="/like/:<%= post['id']%>"><i class="far fa-heart white_heart display-block"></i></a>
+                <a href="/dislike/:<%= post['id']%>"><i class="fas fa-heart pink_heart display-none"></i></a>
                 <div class="article-contents">
                     <h1><%= post['user_name']%></h1>
                     <p><%= post['content']%></p>
+                    <p><%= post['id']%></p>
                 </div>
             </div>
         </div>
+                
         <% end %>
     </section>
     <aside>
