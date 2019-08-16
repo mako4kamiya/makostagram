@@ -87,6 +87,13 @@ get '/index' do
     @name = users_name['name']
     @posts = db.exec("SELECT * FROM posts JOIN users ON posts.user_id = users.id")
 
+    #####いいね機能 途中
+    like = params[:post]
+    puts like
+    db.exec("INSERT INTO likes(user_id,post_id) VALUES($1,$2)",[active_user,like])
+
+
+
     pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
     if pf_img.nil? == true
       default = "default_user.png"
@@ -143,14 +150,29 @@ post '/profile' do
 end
 
 ##途中
-post '/like' do
-  active_user = session[:user_id]
-  post_id = db.exec("SELECT id FROM posts WHERE user_name = $1 AND image =",[active_user]).first
-  db.exec("INSERT INTO likes(user_id,post_id) VALUES($1,$2)",[active_user,post_id])
-end
-post '/dislike' do
+# get '/like' do
+# end
+
+# get '/likes/:post_id' do
+
+# end
+
+# post '/like' do
+#   params[:like] = session[:user_id]
+#   # like = params[:like]
+#   db.exec("INSERT INTO likes(user_id) VALUES($1)",[like])
+#   redirect 'index'
+# end
+
+# post '/dislike' do
+#   active_user = session[:user_id]
+#   # dislike = params[:dislike]
+#   db.exec("DELETE FROM likes WHERE user_id = $1",[active_user])
+# end
+
+# get '/dislike' do
   
-end
+# end
 
 
 get '/following' do
