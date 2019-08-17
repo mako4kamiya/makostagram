@@ -85,7 +85,8 @@ get '/index' do
     active_user = session[:user_id]
     users_name = db.exec("SELECT name FROM users WHERE id = $1",[active_user]).first
     @name = users_name['name']
-    @posts = db.exec("SELECT * FROM posts JOIN users ON posts.user_id = users.id")
+    # @posts = db.exec("SELECT * FROM posts JOIN users ON posts.user_id = users.id")
+    @posts = db.exec("SELECT posts.*,users.profile_image FROM posts JOIN users ON posts.user_id = users.id")
 
     pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
     if pf_img.nil? == true
@@ -143,12 +144,11 @@ post '/profile' do
 end
 
 #####いいね機能 途中
-get '/like/:post_id' do
+get '/like/:id' do
   active_user = session[:user_id]
   post_id = params[:id]
-
-  puts post_id
   db.exec("INSERT INTO likes(user_id,post_id) VALUES($1,$2)",[active_user,post_id])
+  redirect '/index'
 end
 
 
