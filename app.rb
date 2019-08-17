@@ -82,13 +82,16 @@ get '/index' do
   if session[:user_id].nil? == true #セッションが空ならsigninを読み込む
     redirect 'signin'
   else #セッションがあればindexを読み込む
-    active_user = session[:user_id]
-    users_name = db.exec("SELECT name FROM users WHERE id = $1",[active_user]).first
+    @active_user = session[:user_id]
+    users_name = db.exec("SELECT name FROM users WHERE id = $1",[@active_user]).first
     @name = users_name['name']
     # @posts = db.exec("SELECT * FROM posts JOIN users ON posts.user_id = users.id")
-    @posts = db.exec("SELECT posts.*,users.profile_image FROM posts JOIN users ON posts.user_id = users.id")
+    @posts = db.exec("SELECT posts.*,users.profile_image FROM posts JOIN users ON posts.user_id = users.id ORDER BY id DESC")
+    # @you_liked = db.exec("SELECT * FROM posts WHERE liked_by = $1",[session[:user_id]])
 
-    pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[active_user]).first
+
+#プロフィール画像が設定されてるかどうか
+    pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[@active_user]).first
     if pf_img.nil? == true
       default = "default_user.png"
       db.exec("INSERT INTO users(profile_image) VALUES($1)",[default])
@@ -145,12 +148,16 @@ end
 
 #####いいね機能 途中
 get '/like/:id' do
-  active_user = session[:user_id]
-  post_id = params[:id]
-  db.exec("INSERT INTO likes(user_id,post_id) VALUES($1,$2)",[active_user,post_id])
+  db.exec("INSERT INTO likes(user_id,post_id) VALUES($1,$2)",[session[:user_id],params[:id]])
+  db.exec("UPDATE posts SET liked_by = $1 WHERE id = $2",[session[:user_id],params[:id]])
   redirect '/index'
 end
 
+get '/dislike/:id' do
+  db.exec("DELETE FROM likes WHERE user_id = $1 AND post_id = $2",[session[:user_id],params[:id]])
+  db.exec("UPDATE posts SET liked_by = null WHERE liked_by = $1 AND id = $2",[session[:user_id],params[:id]])
+  redirect '/index'
+end
 
 # post '/like' do
 #   params[:like] = session[:user_id]

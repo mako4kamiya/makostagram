@@ -15,18 +15,48 @@ $(function() {
 })
 
 // いいね！のクリックイベント
-    $(function() {
-        $('.white_heart').click(function(){
-            $('.white_heart').addClass('display-none');
-            $('.white_heart').removeClass('display-block');
-            $('.pink_heart').addClass('display-block');
-            $('.pink_heart').removeClass('display-none');
-        }); 
-        $('.pink_heart').click(function(){
-            $('.white_heart').addClass('display-block');
-            $('.white_heart').removeClass('display-none');
-            $('.pink_heart').addClass('display-none'); 
-            $('.pink_heart').removeClass('display-block');
-        });
+// $(function() {
+//     $('.white_heart').click(function(){
+//         $('.white_heart').addClass('display-none');
+//         $('.white_heart').removeClass('display-block');
+//         $('.pink_heart').addClass('display-block');
+//         $('.pink_heart').removeClass('display-none');
+//         });
+//     $('.pink_heart').click(function(){
+//         $('.white_heart').addClass('display-block');
+//         $('.white_heart').removeClass('display-none');
+//         $('.pink_heart').addClass('display-none'); 
+//         $('.pink_heart').removeClass('display-block');
+    // });
+    
+// })
+
+// $(function() {
+//     $('.white_heart').click(function(){
         
-    })
+//         $.ajax({
+//             type: 'GET',
+//             url: '/like/:id',
+//             // dataType: 'json',  //json形式指定
+//             // data: {
+//             // },
+//         })
+//         .done(function () {
+//             $('.white_heart').addClass('display-none');
+//             $('.white_heart').removeClass('display-block');
+//             $('.pink_heart').addClass('display-block');
+//             $('.pink_heart').removeClass('display-none');
+//             });
+//     }); 
+//     $('.pink_heart').click(function(){
+//         $('.white_heart').addClass('display-block');
+//         $('.white_heart').removeClass('display-none');
+//         $('.pink_heart').addClass('display-none'); 
+//         $('.pink_heart').removeClass('display-block');
+//     });
+    
+// })
+
+
+
+
