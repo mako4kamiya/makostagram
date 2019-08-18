@@ -144,14 +144,28 @@ main {
                 }
                 .article-main {
                     padding: 0 16px;
-                    .pink_heart {
-                        color:#ED4956;
-                    }
-                    .display-none {
-                        display: none;
-                    }
-                    .display-block {
-                        display: block;
+                    .article-middle {
+                        .dislike {
+                            display: flex;
+                            align-items: center;
+                        }
+                        .pink_heart {
+                            color:#ED4956;
+                        }
+                        // .display-none {
+                        //     display: none;
+                        // }
+                        // .display-block {
+                        //     display: block;
+                        // }
+                        a {
+                            text-decoration: none;
+                            color: black;
+                        }
+                        p {
+                            padding: 0 5px;
+                            font-size: 10px;
+                        }
                     }
                     .article-contents {
                         display: flex;
@@ -204,6 +218,7 @@ main {
                 width: 150px;
                 height: 150px;
                 border-radius: 50%;
+                object-fit: cover;
             }
             h1 {
                 padding-left: 50px;

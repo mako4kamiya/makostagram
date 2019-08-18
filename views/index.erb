@@ -11,18 +11,24 @@
             </div>
             <img src="/images/post_images/<%= post['image']%>" alt="">
             <div  class="article-main">
-            <% if post['liked_by'] == @active_user %>
-                <a href="/dislike/<%= post['id']%>"><i class="fas fa-heart pink_heart"></i></a>
-            <% else %>
-                <a href="/like/<%= post['id']%>"><i class="far fa-heart white_heart"></i></a>
-            <% end %>
+                <div class="article-middle">
+                <% if (post['liked_by']).eql?(@active_user)%>
+                    <div class="dislike">
+                        <a href="/dislike/<%= post['id']%>"><i class="fas fa-heart pink_heart "></i></a>
+                        <p>you liked</p>
+                    </div>
+                <% else %>
+                    <div class="like">
+                        <a href="/like/<%= post['id']%>"><i class="far fa-heart"></i></a>
+                    </div>
+                <% end %>
+                </div>
                 <div class="article-contents">
                     <h1><%= post['user_name']%></h1>
                     <p><%= post['content']%></p>
                 </div>
             </div>
         </div>
-                
         <% end %>
     </section>
     <aside>
@@ -33,8 +39,7 @@
             <p><%= @name%></p>
         </div>
         <div class="aside_bottom">
-        <p>hello</p>
-        <h1>hi</h1>
+        <p>hello <%= @name%></p>
         </div>
     </aside>
 </article>

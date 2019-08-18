@@ -169,16 +169,23 @@ main article section .post .article-main {
   padding: 0 16px;
 }
 
-main article section .post .article-main .pink_heart {
+main article section .post .article-main .article-middle .dislike {
+  display: flex;
+  align-items: center;
+}
+
+main article section .post .article-main .article-middle .pink_heart {
   color: #ED4956;
 }
 
-main article section .post .article-main .display-none {
-  display: none;
+main article section .post .article-main .article-middle a {
+  text-decoration: none;
+  color: black;
 }
 
-main article section .post .article-main .display-block {
-  display: block;
+main article section .post .article-main .article-middle p {
+  padding: 0 5px;
+  font-size: 10px;
 }
 
 main article section .post .article-main .article-contents {
@@ -237,6 +244,7 @@ main .profile .profile_header img {
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 main .profile .profile_header h1 {

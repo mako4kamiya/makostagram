@@ -14,25 +14,25 @@ $(function() {
     
 })
 
-// いいね！のクリックイベント
+// // いいね！のクリックイベント
 // $(function() {
-//     $('.white_heart').click(function(){
-//         $('.white_heart').addClass('display-none');
-//         $('.white_heart').removeClass('display-block');
-//         $('.pink_heart').addClass('display-block');
-//         $('.pink_heart').removeClass('display-none');
+//     $('.like').click(function(){
+//         $('.like').addClass('display-none');
+//         $('.like').removeClass('display-block');
+//         $('.dislike').addClass('display-block');
+//         $('.dislike').removeClass('display-none');
 //         });
-//     $('.pink_heart').click(function(){
-//         $('.white_heart').addClass('display-block');
-//         $('.white_heart').removeClass('display-none');
-//         $('.pink_heart').addClass('display-none'); 
-//         $('.pink_heart').removeClass('display-block');
-    // });
+//     $('.dislike').click(function(){
+//         $('.like').addClass('display-block');
+//         $('.like').removeClass('display-none');
+//         $('.dislike').addClass('display-none'); 
+//         $('.dislike').removeClass('display-block');
+//     });
     
 // })
 
 // $(function() {
-//     $('.white_heart').click(function(){
+//     $('.like').click(function(){
         
 //         $.ajax({
 //             type: 'GET',
@@ -42,17 +42,17 @@ $(function() {
 //             // },
 //         })
 //         .done(function () {
-//             $('.white_heart').addClass('display-none');
-//             $('.white_heart').removeClass('display-block');
-//             $('.pink_heart').addClass('display-block');
-//             $('.pink_heart').removeClass('display-none');
+//             $('.like').addClass('display-none');
+//             $('.like').removeClass('display-block');
+//             $('.dislike').addClass('display-block');
+//             $('.dislike').removeClass('display-none');
 //             });
 //     }); 
-//     $('.pink_heart').click(function(){
-//         $('.white_heart').addClass('display-block');
-//         $('.white_heart').removeClass('display-none');
-//         $('.pink_heart').addClass('display-none'); 
-//         $('.pink_heart').removeClass('display-block');
+//     $('.dislike').click(function(){
+//         $('.like').addClass('display-block');
+//         $('.like').removeClass('display-none');
+//         $('.dislike').addClass('display-none'); 
+//         $('.dislike').removeClass('display-block');
 //     });
     
 // })
