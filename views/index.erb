@@ -2,12 +2,32 @@
     <section>
         <% @posts.each do |post| %>
         <div class="post">
+                <!-- Modal  -->
+            <div class="modal">
+                <input class="modal-open" id="delete-post" type="checkbox" hidden>
+                <div class="modal-wrap" aria-hidden="true" role="dialog">
+                    <label class="modal-overlay" for="delete-post"></label>
+                    <div class="modal-dialog">
+                        <div class="modal-body">
+                            <h2>消しますか？</h2>
+                            <label class="btn-close" for="delete-post" aria-hidden="true">×</label>
+                            <%# <form action="/delete" method="post" id="delete-post"> %>
+                                <%#<input type="hidden" name="%><%#= post['id']" id="id" value="%><%#= post['id']%>
+                                <%# <input type="submit" value="消す"></input> %>
+                            <%# </form> %>
+                            <a href="/delete/<%= post['id']%>">消す</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="article-headder">
                 <div class="article-headder-left">
                 <img src="/images/profile_images/<%= post['profile_image']%>" >
                     <p><%= post['user_name']%></p>
                 </div>
-                <i class="fas fa-ellipsis-h"></i>
+                <label class="btn" for="delete-post">
+                    <i class="fas fa-ellipsis-h"></i>
+                </label>
             </div>
             <img src="/images/post_images/<%= post['image']%>" alt="">
             <div  class="article-main">

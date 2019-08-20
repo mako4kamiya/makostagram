@@ -86,12 +86,23 @@ get '/index' do
     redirect 'signin'
   else #セッションがあればindexを読み込む
     @active_user = session[:user_id]
-    users_name = db.exec("SELECT name FROM users WHERE id = $1",[session[:user_id]]).first
+    users_name = db.exec("SELECT name FROM users WHERE id = $1",[@active_user]).first
     @name = users_name['name']
-    # @posts = db.exec("SELECT posts.*,users.profile_image FROM posts JOIN users ON posts.user_id = users.id ORDER BY id DESC")
-    @posts = db.exec("SELECT posts.*,users.profile_image,likes.liked_by FROM posts JOIN users ON posts.user_id = users.id LEFT JOIN likes ON posts.id = likes.post_id ORDER BY id DESC")
+    # @posts = db.exec("SELECT posts.*,users.profile_image,likes.liked_by FROM posts JOIN users ON posts.user_id = users.id LEFT JOIN likes ON posts.id = likes.post_id ORDER BY id DESC")
+    @posts = db.exec("
+      SELECT posts.id,posts.user_name,posts.image,posts.content,users.profile_image,like_me.liked_by
+      From posts
+      LEFT JOIN users ON posts.user_id = users.id
+      LEFT JOIN (
+        SELECT * 
+        FROM likes 
+        WHERE liked_by = $1)
+        as like_me
+      ON posts.id = like_me.post_id 
+      ORDER BY id DESC",[@active_user])
 
-#プロフィール画像が設定されてるかどうか
+
+    #プロフィール画像が設定されてるかどうか
     pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[session[:user_id]]).first
     if pf_img.nil? == true
       default = "default_user.png"
@@ -114,6 +125,11 @@ end
 get '/dislike/:id' do
   db.exec("DELETE FROM likes WHERE post_id = $1 AND liked_by = $2",[params[:id],session[:user_id]])
   # db.exec("UPDATE posts SET liked_by = null WHERE liked_by = $1 AND id = $2",[session[:user_id],params[:id]])
+  redirect '/index'
+end
+
+get '/delete/:id' do
+  db.exec("DELETE FROM posts WHERE id = $1 AND user_id = $2",[params[:id],session[:user_id]])
   redirect '/index'
 end
 
