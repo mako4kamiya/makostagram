@@ -147,12 +147,14 @@ post '/index' do
 end
 
 
-get '/profile' do
-  users_name = db.exec("SELECT name FROM users WHERE id = $1",[session[:user_id]]).first
-  @name = users_name['name']
-  @profile_posts = db.exec("SELECT image FROM posts WHERE user_id =$1",[session[:user_id]])
-  pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[session[:user_id]]).first
-  @profile_image = pf_img['profile_image']
+get '/profile/:id' do
+  @users = db.exec("SELECT * FROM users WHERE id = $1",[params[:id]])
+  @profile_posts = db.exec("SELECT image FROM posts WHERE user_id =$1 ORDER BY $1 DESC",[params[:id]])
+
+  # users_name = db.exec("SELECT name FROM users WHERE id = $1",[session[:user_id]]).first
+  # @name = users_name['name']
+  # pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[session[:user_id]]).first
+  # @profile_image = pf_img['profile_image']
   erb :profile
 end
 ##profile画像を設定する。##
