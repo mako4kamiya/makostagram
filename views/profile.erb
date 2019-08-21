@@ -23,13 +23,18 @@
   </div>
 </div>
 
-<% @users.each do |user|%>
+<% @user_info.each do |u_info|%>
 <div class="profile">
     <div class="profile_header">
         <label class="btn" for="upload-profile_image">
-            <img src="/images/profile_images/<%= user['profile_image']%>">
+            <img src="/images/profile_images/<%= u_info['profile_image']%>">
         </label>
-        <h1><%= user['name']%></h1>
+        <h1><%= u_info['name']%></h1>
+    <% if (u_info['followed_by']).nil? %>
+        <a href="/follow/<%= u_info['id']%>" class="follow">フォローする</a>
+    <% else %>
+        <a href="/unfollow/<%= u_info['id']%>" class="unfollow">フォロー中</a>
+    <% end%>
     </div>
     <div class="profile_posts">
     <% @profile_posts.each do |post| %>

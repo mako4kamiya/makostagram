@@ -14,6 +14,7 @@ require 'pg' #PostgreSQLを使えるようにします。
 set :public_folder, 'Public'
 enable :sessions #セッションを使います
 
+
 #####
 #DB接続
 ####
@@ -34,8 +35,7 @@ end
 #####
 #ルーティン
 ####
-
-#セッションがあるかどうかの確認
+#####セッションがあるかどうかの確認####
 get '/' do
   if session[:user_id].nil? == true #セッションが空ならsigninを読み込む
       redirect 'signin'
@@ -44,7 +44,7 @@ get '/' do
   end
 end
 
-###サインアップ（新規登録）画面###
+#####サインアップ（新規登録）画面#####
 #/signupにアクセスすると、サインアップ（新規登録）画面が表示される。
 get '/signup' do
   erb :signup, :layout => :signup #signupのレイアウトを使う
@@ -58,7 +58,8 @@ post '/signup' do
   redirect '/signin'
 end
 
-###サインイン画面###
+
+#####サインイン画面#####
 #/signinにアクセスすると、サインイン画面が表示される。
 get '/signin' do
   erb :signin, :layout => :signin #signinのレイアウトを使う
@@ -78,8 +79,7 @@ post '/signin' do
 end
 
 
-
-####home(index画面)###
+#####home(index画面)#####
 #/index にアクセスすると、みんなの掲示板の内容一覧と投稿画面が表示される
 get '/index' do
   if session[:user_id].nil? == true #セッションが空ならsigninを読み込む
@@ -90,71 +90,93 @@ get '/index' do
     @name = users_name['name']
     # @posts = db.exec("SELECT posts.*,users.profile_image,likes.liked_by FROM posts JOIN users ON posts.user_id = users.id LEFT JOIN likes ON posts.id = likes.post_id ORDER BY id DESC")
     @posts = db.exec("
-      SELECT posts.id,posts.user_name,posts.image,posts.content,users.profile_image,like_me.liked_by
-      From posts
-      LEFT JOIN users ON posts.user_id = users.id
-      LEFT JOIN (
-        SELECT * 
-        FROM likes 
-        WHERE liked_by = $1)
-        as like_me
-      ON posts.id = like_me.post_id 
-      ORDER BY id DESC",[@active_user])
-
-
-    #プロフィール画像が設定されてるかどうか
-    pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[session[:user_id]]).first
-    if pf_img.nil? == true
-      default = "default_user.png"
-      db.exec("INSERT INTO users(profile_image) VALUES($1)",[default])
-      redirect 'index'
-    else
-      @profile_image = pf_img['profile_image']
-      erb :index
+    SELECT posts.id,posts.user_name,posts.image,posts.content,users.profile_image,like_me.liked_by
+    From posts
+    LEFT JOIN users ON posts.user_id = users.id
+    LEFT JOIN (
+      SELECT * 
+      FROM likes 
+      WHERE liked_by = $1)
+      as like_me
+    ON posts.id = like_me.post_id 
+    ORDER BY id DESC",[@active_user])
+      
+      #プロフィール画像が設定されてるかどうか
+      pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[session[:user_id]]).first
+      if pf_img.nil? == true
+        default = "default_user.png"
+        db.exec("INSERT INTO users(profile_image) VALUES($1)",[default])
+        redirect 'index'
+      else
+        @profile_image = pf_img['profile_image']
+        erb :index
+      end
     end
   end
-end
+  
+  #####投稿#####
+  post '/index' do
+    ##画像とcomment投稿##
+    users_name = db.exec("SELECT name FROM users WHERE id = $1",[session[:user_id]]).first
+    name = users_name['name']
+    file_name = params[:img][:filename]
+    content = params[:content]
+    db.exec("INSERT INTO posts(user_name,image,content,user_id) VALUES($1,$2,$3,$4)",[name,file_name,content,session[:user_id]])
+    ##投稿画像をimagesフォルダへ保存する。##
+    FileUtils.mv(params[:img][:tempfile], "./public/images/post_images/#{file_name}")
+    puts "投稿しました"
+    redirect '/index'
+  end
+  #####投稿消去#####
+  get '/delete/:id' do
+    db.exec("DELETE FROM posts WHERE id = $1 AND user_id = $2",[params[:id],session[:user_id]])
+    redirect '/index'
+  end
+  
+  
+  #####いいね機能#####
+  get '/like/:id' do
+    db.exec("INSERT INTO likes(post_id,liked_by) VALUES($1,$2)",[params[:id],session[:user_id]])
+    redirect '/index'
+  end
+  get '/dislike/:id' do
+    db.exec("DELETE FROM likes WHERE post_id = $1 AND liked_by = $2",[params[:id],session[:user_id]])
+    # db.exec("UPDATE posts SET liked_by = null WHERE liked_by = $1 AND id = $2",[session[:user_id],params[:id]])
+    redirect '/index'
+  end
+  
+  
+  #####フォロー画面#####
+  get '/follow/:id' do
+    id = params[:id]
+    db.exec("INSERT INTO follows (user_id,followed_by) VALUES($1,$2)",[params[:id],session[:user_id]])
+    redirect '/index'
+  end
+  
+  get '/unfollow/:id' do
+    @id = params[:id]
+    db.exec("DELETE FROM follows WHERE user_id = $1 AND followed_by= $2",[params[:id],session[:user_id]])
+    redirect '/index'
+  end
 
-#####いいね機能
-get '/like/:id' do
-  default = "default"
-  db.exec("INSERT INTO likes(post_id,liked_by) VALUES($1,$2)",[params[:id],session[:user_id]])
-  redirect '/index'
-end
 
-get '/dislike/:id' do
-  db.exec("DELETE FROM likes WHERE post_id = $1 AND liked_by = $2",[params[:id],session[:user_id]])
-  # db.exec("UPDATE posts SET liked_by = null WHERE liked_by = $1 AND id = $2",[session[:user_id],params[:id]])
-  redirect '/index'
-end
-
-get '/delete/:id' do
-  db.exec("DELETE FROM posts WHERE id = $1 AND user_id = $2",[params[:id],session[:user_id]])
-  redirect '/index'
-end
-
-post '/index' do
-  ##画像とcomment投稿##
-  users_name = db.exec("SELECT name FROM users WHERE id = $1",[session[:user_id]]).first
-  name = users_name['name']
-  file_name = params[:img][:filename]
-  content = params[:content]
-  db.exec("INSERT INTO posts(user_name,image,content,user_id) VALUES($1,$2,$3,$4)",[name,file_name,content,session[:user_id]])
-  ##投稿画像をimagesフォルダへ保存する。##
-  FileUtils.mv(params[:img][:tempfile], "./public/images/post_images/#{file_name}")
-  puts "投稿しました"
-  redirect '/index'
-end
-
-
+#####プロフィール画面#####
 get '/profile/:id' do
-  @users = db.exec("SELECT * FROM users WHERE id = $1",[params[:id]])
+  @user_info = db.exec("
+  SELECT
+  DISTINCT ON (users.id)
+  users.id,users.name,users.profile_image,posts.image,who_i_followed.followed_by
+  FROM users
+  LEFT JOIN posts ON users.id = posts.user_id
+  LEFT JOIN (
+    SELECT *
+    FROM follows
+    WHERE followed_by = $1)
+    as who_i_followed 
+  ON users.id = who_i_followed.user_id
+  WHERE users.id = $2",[session[:user_id],params[:id]])
   @profile_posts = db.exec("SELECT image FROM posts WHERE user_id =$1 ORDER BY $1 DESC",[params[:id]])
-
-  # users_name = db.exec("SELECT name FROM users WHERE id = $1",[session[:user_id]]).first
-  # @name = users_name['name']
-  # pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[session[:user_id]]).first
-  # @profile_image = pf_img['profile_image']
+  @following = db.exec("SELECT * FROM follows WHERE user_id = $1 AND followed_by = $2",[params[:id],session[:user_id]])
   erb :profile
 end
 ##profile画像を設定する。##

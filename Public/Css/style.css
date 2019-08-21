@@ -251,6 +251,26 @@ main .profile .profile_header h1 {
   padding-left: 50px;
 }
 
+main .profile .profile_header .unfollow {
+  display: inline-block;
+  text-decoration: none;
+  background-color: white;
+  color: black;
+  border-radius: 3px;
+  padding: 3px 10px;
+  margin-left: 20px;
+}
+
+main .profile .profile_header .follow {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #3897F0;
+  color: white;
+  border-radius: 3px;
+  padding: 3px 10px;
+  margin-left: 20px;
+}
+
 main .profile .profile_posts {
   display: flex;
 }

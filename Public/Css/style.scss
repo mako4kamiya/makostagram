@@ -223,6 +223,24 @@ main {
             h1 {
                 padding-left: 50px;
             }
+            .unfollow {
+                display: inline-block;
+                text-decoration: none;
+                background-color: white;
+                color:black;
+                border-radius: 3px;
+                padding: 3px 10px;
+                margin-left: 20px;
+            }
+            .follow {
+                display: inline-block;
+                text-decoration: none;
+                background-color: #3897F0;
+                color: white;
+                border-radius: 3px;
+                padding: 3px 10px;
+                margin-left: 20px;
+            }
         }
         .profile_posts {
             display: flex;
@@ -235,7 +253,7 @@ main {
                     height: inherit;
                 }
             }
-    }
+        }
     }
 }
 
