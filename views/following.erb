@@ -1,0 +1,15 @@
+<div class="section">
+<% @following.each do |follow|%>
+    <div class="follows">
+        <img src="/images/profile_images/<%= follow['profile_image']%>" alt="">
+        <h1><%=follow['name']%></h1>
+        <% if (follow['followed_by']).nil? %>
+            <a href="/follow/<%= u_info['id']%>" class="follow">フォローする</a>
+        <% elsif (follow['followed_by']).eql?(@active_user)%>
+            <a href="/profile/<%=@active_user%>" class="unfollow">プロフィール画像を編集する</a>
+        <% else %>
+            <a href="/unfollow/<%= follow['id']%>" class="unfollow nomal">フォロー中</a>
+        <% end%>
+    </div>
+<% end %>
+</div>

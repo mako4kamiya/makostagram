@@ -12,12 +12,34 @@ $border-line:solid 1px $border;
     padding: 7px;
     color: $font-lightgray;
 }
+@mixin roundimg {
+    border-radius: 50%;
+    object-fit: cover;
+}
+@mixin follow_button($color1,$color2) {
+    display: inline-block;
+    text-decoration: none;
+    background-color: $color1;
+    color:$color2;
+    border: $border-line;
+    border-radius: 3px;
+    padding: 3px 10px;
+    margin-left: 20px;
+}
 
 body {
     font-family: 'Avenir','Helvetica Neue','Helvetica','Arial','Hiragino Sans','ヒラギノ角ゴシック',YuGothic,'Yu Gothic','メイリオ', Meiryo,'ＭＳ Ｐゴシック','MS PGothic';
     margin: 0 auto;
     p {
         margin: unset;
+    }
+    a {
+        text-decoration: none;
+        color: black;
+        &:hover {
+            text-decoration: underline;
+            color: gray;
+        }
     }
 }
 
@@ -105,6 +127,9 @@ header {
     }
 }
 main {
+    h1 {
+        margin: 0,auto;
+    }
     display: flex;
     justify-content: center;
     background-color: $bg-gray;
@@ -130,8 +155,7 @@ main {
                         img {
                             width: 32px;
                             height: 32px;
-                            border-radius: 50px;
-                            object-fit: cover;
+                            @include roundimg;
                         }
                         p {
                             padding-left: 5px;
@@ -158,10 +182,6 @@ main {
                         // .display-block {
                         //     display: block;
                         // }
-                        a {
-                            text-decoration: none;
-                            color: black;
-                        }
                         p {
                             padding: 0 5px;
                             font-size: 10px;
@@ -191,8 +211,7 @@ main {
                 img {
                     width: 50px;
                     height: 50px;
-                    border-radius: 50px;
-                    object-fit: cover;
+                    @include roundimg;
                 }
                 p {
                     padding-left: 5px;
@@ -217,28 +236,17 @@ main {
             img {
                 width: 150px;
                 height: 150px;
-                border-radius: 50%;
-                object-fit: cover;
+                @include roundimg;
             }
             h1 {
                 padding-left: 50px;
             }
             .unfollow {
-                display: inline-block;
-                text-decoration: none;
-                background-color: white;
-                color:black;
-                border-radius: 3px;
-                padding: 3px 10px;
-                margin-left: 20px;
+                @include follow_button(white,black);
             }
             .follow {
+                @include follow_button(#3897F0,white);
                 display: inline-block;
-                text-decoration: none;
-                background-color: #3897F0;
-                color: white;
-                border-radius: 3px;
-                padding: 3px 10px;
                 margin-left: 20px;
             }
         }
@@ -252,6 +260,33 @@ main {
                     width: inherit;
                     height: inherit;
                 }
+            }
+        }
+    }
+    .section {
+        border: $border-line;
+        .follows {
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            padding:50px;
+            border-radius: 3px;
+            background-color: white;
+            img {
+                width: 100px;
+                height: 100px;
+                @include roundimg;
+            }
+            h1 {
+                padding-left: 30px;
+            }
+            .unfollow {
+                @include follow_button(white,black);
+            }
+            .follow {
+                @include follow_button(#3897F0,white);
+                display: inline-block;
+                margin-left: 20px;
             }
         }
     }

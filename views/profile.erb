@@ -26,14 +26,23 @@
 <% @user_info.each do |u_info|%>
 <div class="profile">
     <div class="profile_header">
+    <% if (u_info['id']).eql?(@active_user)%>
         <label class="btn" for="upload-profile_image">
             <img src="/images/profile_images/<%= u_info['profile_image']%>">
         </label>
+    <% else%>
+        <label class="btn">
+            <img src="/images/profile_images/<%= u_info['profile_image']%>">
+        </label>
+    <% end%>
         <h1><%= u_info['name']%></h1>
-    <% if (u_info['followed_by']).nil? %>
+    <% if (u_info['id']).eql?(@active_user)%>
+        <a href="/profile/<%=@active_user%>" class="unfollow">プロフィール画像を編集する</a>
+    <% elsif (u_info['followed_by']).nil? %>
         <a href="/follow/<%= u_info['id']%>" class="follow">フォローする</a>
     <% else %>
-        <a href="/unfollow/<%= u_info['id']%>" class="unfollow">フォロー中</a>
+        <a href="/unfollow/<%= u_info['id']%>" class="unfollow nomal">フォロー中</a>
+        <%#<a href="/unfollow/<%= u_info['id']%><%#%" class="unfollow hover">解除する</a>%>
     <% end%>
     </div>
     <div class="profile_posts">

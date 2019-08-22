@@ -8,6 +8,16 @@ body p {
   margin: unset;
 }
 
+body a {
+  text-decoration: none;
+  color: black;
+}
+
+body a:hover {
+  text-decoration: underline;
+  color: gray;
+}
+
 header {
   display: flex;
   justify-content: center;
@@ -121,6 +131,10 @@ main {
   padding-top: 60px;
 }
 
+main h1 {
+  margin: 0,auto;
+}
+
 main article {
   margin: 0 auto;
   display: flex;
@@ -152,7 +166,7 @@ main article section .post .article-headder .article-headder-left {
 main article section .post .article-headder .article-headder-left img {
   width: 32px;
   height: 32px;
-  border-radius: 50px;
+  border-radius: 50%;
   object-fit: cover;
 }
 
@@ -176,11 +190,6 @@ main article section .post .article-main .article-middle .dislike {
 
 main article section .post .article-main .article-middle .pink_heart {
   color: #ED4956;
-}
-
-main article section .post .article-main .article-middle a {
-  text-decoration: none;
-  color: black;
 }
 
 main article section .post .article-main .article-middle p {
@@ -216,7 +225,7 @@ main article aside .aside_top {
 main article aside .aside_top img {
   width: 50px;
   height: 50px;
-  border-radius: 50px;
+  border-radius: 50%;
   object-fit: cover;
 }
 
@@ -256,6 +265,7 @@ main .profile .profile_header .unfollow {
   text-decoration: none;
   background-color: white;
   color: black;
+  border: solid 1px #dbdbdb;
   border-radius: 3px;
   padding: 3px 10px;
   margin-left: 20px;
@@ -266,8 +276,11 @@ main .profile .profile_header .follow {
   text-decoration: none;
   background-color: #3897F0;
   color: white;
+  border: solid 1px #dbdbdb;
   border-radius: 3px;
   padding: 3px 10px;
+  margin-left: 20px;
+  display: inline-block;
   margin-left: 20px;
 }
 
@@ -284,6 +297,54 @@ main .profile .profile_posts .post img {
   object-fit: cover;
   width: inherit;
   height: inherit;
+}
+
+main .section {
+  border: solid 1px #dbdbdb;
+}
+
+main .section .follows {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 50px;
+  border-radius: 3px;
+  background-color: white;
+}
+
+main .section .follows img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+main .section .follows h1 {
+  padding-left: 30px;
+}
+
+main .section .follows .unfollow {
+  display: inline-block;
+  text-decoration: none;
+  background-color: white;
+  color: black;
+  border: solid 1px #dbdbdb;
+  border-radius: 3px;
+  padding: 3px 10px;
+  margin-left: 20px;
+}
+
+main .section .follows .follow {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #3897F0;
+  color: white;
+  border: solid 1px #dbdbdb;
+  border-radius: 3px;
+  padding: 3px 10px;
+  margin-left: 20px;
+  display: inline-block;
+  margin-left: 20px;
 }
 
 .top {
