@@ -264,6 +264,10 @@ main {
         }
     }
     .section {
+        h1 {
+            padding: 100px 200px;
+            background-color: white;
+        }
         border: $border-line;
         .likes_follows {
             display: flex;

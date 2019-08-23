@@ -1,5 +1,8 @@
 <div class="section">
 <% @following.each do |follow|%>
+    <% if (follow['followed_by']).nil?%>
+        <h1>まだフォローしていません</h1>
+    <% else%>
     <div class="likes_follows">
         <img src="/images/profile_images/<%= follow['profile_image']%>" alt="">
         <h1><%=follow['name']%></h1>
@@ -10,6 +13,7 @@
         <% else %>
             <a href="/unfollow/<%= follow['id']%>" class="unfollow nomal">フォロー中</a>
         <% end%>
+    <% end%>
     </div>
 <% end %>
 </div>
