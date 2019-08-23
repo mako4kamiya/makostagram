@@ -32,6 +32,7 @@ def db
   :dbname => dbname)
 end
 
+
 #####
 #ルーティン
 ####
@@ -120,7 +121,8 @@ get '/index' do
     end
   end
 end
-  
+
+
 #####投稿#####
 post '/index' do
   ##画像とcomment投稿##
@@ -134,14 +136,13 @@ post '/index' do
   puts "投稿しました"
   redirect '/index'
 end
-
 #####投稿消去#####
 get '/delete/:id' do
   db.exec("DELETE FROM posts WHERE id = $1 AND user_id = $2",[params[:id],session[:user_id]])
   redirect '/index'
 end
-  
-  
+
+
 #####いいね機能#####
 get '/like/:id' do
   db.exec("INSERT INTO likes(post_id,liked_by) VALUES($1,$2)",[params[:id],session[:user_id]])
@@ -152,31 +153,28 @@ get '/dislike/:id' do
   # db.exec("UPDATE posts SET liked_by = null WHERE liked_by = $1 AND id = $2",[session[:user_id],params[:id]])
   redirect '/index'
 end
-
-
 #####いいねー一覧#####
 get '/liking' do
   @liking = db.exec("SELECT *FROM posts LEFT JOIN (SELECT likes.*,users.name,users.profile_image FROM likes LEFT JOIN users ON likes.liked_by = users.id) as wlyp ON wlyp.post_id = posts.id WHERE posts.user_id = $1 ORDER BY wlyp.id ASC",[session[:user_id]])
   erb :liking
 end
 
-#####フォロー一覧#####
-get '/following' do
-  @following = db.exec("SELECT users.id,users.name,users.profile_image,follows.followed_by from users LEFT JOIN follows ON users.id = follows.user_id WHERE followed_by = $1",[session[:user_id]])
-  erb :following
-end
-  
-#####フォロー画面#####
+
+#####フォロー機能#####
 get '/follow/:id' do
   id = params[:id]
   db.exec("INSERT INTO follows (user_id,followed_by) VALUES($1,$2)",[params[:id],session[:user_id]])
   redirect '/index'
 end
-
 get '/unfollow/:id' do
   @id = params[:id]
   db.exec("DELETE FROM follows WHERE user_id = $1 AND followed_by= $2",[params[:id],session[:user_id]])
   redirect '/index'
+end
+#####フォロー一覧#####
+get '/following' do
+  @following = db.exec("SELECT users.id,users.name,users.profile_image,follows.followed_by from users LEFT JOIN follows ON users.id = follows.user_id WHERE followed_by = $1",[session[:user_id]])
+  erb :following
 end
 
 
