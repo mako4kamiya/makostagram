@@ -154,6 +154,12 @@ get '/dislike/:id' do
 end
 
 
+#####いいねー一覧#####
+get '/liking' do
+  @liking = db.exec("SELECT *FROM posts LEFT JOIN (SELECT likes.*,users.name,users.profile_image FROM likes LEFT JOIN users ON likes.liked_by = users.id) as wlyp ON wlyp.post_id = posts.id WHERE posts.user_id = $1 ORDER BY wlyp.id ASC",[session[:user_id]])
+  erb :liking
+end
+
 #####フォロー一覧#####
 get '/following' do
   @following = db.exec("SELECT users.id,users.name,users.profile_image,follows.followed_by from users LEFT JOIN follows ON users.id = follows.user_id WHERE followed_by = $1",[session[:user_id]])
@@ -210,5 +216,5 @@ post '/profile' do
   end
   db.exec("UPDATE users SET profile_image = $1 WHERE id = $2 AND profile_image = $3",[new_pf_img, session[:user_id], old_pf_img])
   puts "hogehoge"
-  redirect 'profile'
+  redirect 'index'
 end

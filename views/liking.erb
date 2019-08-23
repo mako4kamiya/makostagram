@@ -1,0 +1,12 @@
+<div class="section">
+<% @liking.each do |like|%>
+    <% if (like['liked_by']).nil?%>
+        <p>まだいいねがありません</p>
+    <% else%>
+    <div class="likes_follows">
+        <img src="/images/profile_images/<%= like['profile_image']%>" alt="">
+        <p><%=like['name']%>さんがあなたの投稿に「いいね！」しました。</p>
+    </div>
+    <% end %>
+<% end %>
+</div>
