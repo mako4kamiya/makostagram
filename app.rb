@@ -108,6 +108,8 @@ get '/index' do
       as like_me
     ON posts.id = like_me.post_id 
     ORDER BY id DESC",[@active_user])
+
+
       
     #プロフィール画像が設定されてるかどうか
     pf_img = db.exec("SELECT profile_image FROM users WHERE id =$1",[session[:user_id]]).first

@@ -6,7 +6,7 @@
     <div class="modal-dialog">
         <form action="/profile" method="POST" enctype="multipart/form-data">
             <div class="modal-header">
-                <h2>profile画像を編集しましょう</h2>
+                <h2>profile画像を設定しましょう</h2>
                 <label class="btn-close" for="upload-profile_image" aria-hidden="true">×</label>
             </div>
             <div class="modal-body">
@@ -37,9 +37,7 @@
     <% end%>
         <h1><%= u_info['name']%></h1>
     <% if (u_info['id']).eql?(@active_user)%>
-        <label class="btn" for="upload-profile_image">
-            <a href="" class="unfollow">プロフィール画像を編集する</a>
-        </label>
+        <a href="/profile/<%=@active_user%>" class="unfollow">プロフィール画像を編集する</a>
     <% elsif (u_info['followed_by']).nil? %>
         <a href="/follow/<%= u_info['id']%>" class="follow">フォローする</a>
     <% else %>

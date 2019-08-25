@@ -303,8 +303,7 @@ main .section {
   border: solid 1px #dbdbdb;
 }
 
-main .section h1 {
-  padding: 100px 200px;
+main .section p {
   background-color: white;
 }
 
