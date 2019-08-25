@@ -98,7 +98,7 @@ get '/index' do
     @name = users_name['name']
     # @posts = db.exec("SELECT posts.*,users.profile_image,likes.liked_by FROM posts JOIN users ON posts.user_id = users.id LEFT JOIN likes ON posts.id = likes.post_id ORDER BY id DESC")
     @posts = db.exec("
-    SELECT posts.id,posts.user_name,posts.image,posts.content,users.profile_image,like_me.liked_by
+    SELECT posts.id,posts.user_id,posts.user_name,posts.image,posts.content,users.profile_image,like_me.liked_by
     From posts
     LEFT JOIN users ON posts.user_id = users.id
     LEFT JOIN (
@@ -175,7 +175,9 @@ get '/unfollow/:id' do
 end
 #####フォロー一覧#####
 get '/following' do
+  
   @following = db.exec("SELECT users.id,users.name,users.profile_image,follows.followed_by from users LEFT JOIN follows ON users.id = follows.user_id WHERE followed_by = $1",[session[:user_id]])
+  # @following = db.exec("SELECT users.id,users.name,users.profile_image,follows.followed_by  FROM users LEFT JOIN (SELECT * FROM follows WHERE followed_by = $1) as follows ON users.id = follows.user_id",[session[:user_id]])
   erb :following
 end
 
